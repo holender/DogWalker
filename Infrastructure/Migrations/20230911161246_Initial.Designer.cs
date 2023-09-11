@@ -229,7 +229,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Infrastructure.Data.Walker", "Walker")
-                        .WithMany("SessionSpeakers")
+                        .WithMany("SessionWalkers")
                         .HasForeignKey("WalkerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -260,7 +260,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Infrastructure.Data.Walker", b =>
                 {
-                    b.Navigation("SessionSpeakers");
+                    b.Navigation("SessionWalkers");
                 });
 #pragma warning restore 612, 618
         }

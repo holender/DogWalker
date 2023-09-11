@@ -4,7 +4,7 @@ using Infrastructure;
 
 namespace GraphQL.Extensions
 {
-    public class UseApplicationDbContextAttribute : ObjectFieldDescriptorAttribute
+    public class UseWalkerPlanerDbContextAttribute : ObjectFieldDescriptorAttribute
     {
         protected override void OnConfigure(
             IDescriptorContext context,

@@ -1,15 +1,15 @@
 ﻿using GraphQL.Extensions;
-using GraphQL.Types.Walkers;
 using Infrastructure;
 using Infrastructure.Data;
 
-namespace GraphQL.Types
+namespace GraphQL.Types.Walkers
 {
-    public class Mutation
+    [ExtendObjectType(Name = OperationTypeNames.Mutation)]
+    public class WalkerMutations
     {
-        [UseApplicationDbContext]
+        [UseWalkerPlanerDbContext]
         public async Task<AddWalkerPayload> AddWalkerAsync(
-            AddWalkerPInput input, 
+            AddWalkerInput input,
             WalkerPlanerDbContext context)
         {
             var walker = new Walker

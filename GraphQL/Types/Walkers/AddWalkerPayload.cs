@@ -1,13 +1,15 @@
-﻿using Infrastructure.Data;
+﻿using GraphQL.Common;
+using Infrastructure.Data;
 
 namespace GraphQL.Types.Walkers;
 
-public class AddWalkerPayload
+public class AddWalkerPayload : WalkerPayloadBase
 {
-    public Walker Walker { get; }
 
-    public AddWalkerPayload(Walker walker)
-    {
-        Walker = walker;
-    }
+    public AddWalkerPayload(Walker walker) : base(walker)
+    { }
+
+    public AddWalkerPayload(IReadOnlyList<UserError> errors)
+        : base(errors)
+    { }
 }
