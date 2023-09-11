@@ -6,8 +6,8 @@ namespace Infrastructure.Data
 
         public Session? Session { get; set; }
 
-        public int AttendeeId { get; set; }
+        public int DogId { get; set; }
 
-        public Dog? Attendee { get; set; }
+        public Dog? Dog { get; set; }
     }
 }

@@ -6,8 +6,8 @@ namespace Infrastructure.Data
 
         public Session? Session { get; set; }
 
-        public int SpeakerId { get; set; }
+        public int WalkerId { get; set; }
 
-        public Walker? Speaker { get; set; }
+        public Walker? Walker { get; set; }
     }
 }

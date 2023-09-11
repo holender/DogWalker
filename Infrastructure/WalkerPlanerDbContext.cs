@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    internal class AppDbContext : DbContext
+    public class WalkerPlanerDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        public WalkerPlanerDbContext(DbContextOptions<WalkerPlanerDbContext> options)
             : base(options)
         {
         }
@@ -16,21 +16,21 @@ namespace Infrastructure
                 .Entity<Dog>()
                 .HasIndex(a => a.Name)
                 .IsUnique();
-            
+
             // Many-to-many: Session <-> Dogs
             modelBuilder
                 .Entity<SessionDog>()
-                .HasKey(ca => new { ca.SessionId, ca.AttendeeId });
+                .HasKey(ca => new { ca.SessionId, ca.DogId });
 
             // Many-to-many: Walker <-> Session
             modelBuilder
                 .Entity<SessionWalker>()
-                .HasKey(ss => new { ss.SessionId, ss.SpeakerId });
+                .HasKey(ss => new { ss.SessionId, ss.WalkerId });
         }
 
         public DbSet<Dog> Dogs { get; set; } = default!;
 
-        public DbSet<Walker> Walker { get; set; } = default!;
+        public DbSet<Walker> Walkers { get; set; } = default!;
 
         public DbSet<Track> Tracks { get; set; } = default!;
 
