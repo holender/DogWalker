@@ -1,4 +1,5 @@
 ﻿using GraphQL.Extensions;
+using GraphQL.Types.Walkers;
 using Infrastructure;
 using Infrastructure.Data;
 

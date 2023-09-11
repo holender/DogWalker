@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Data;
 
-namespace GraphQL.Types;
+namespace GraphQL.Types.Walkers;
 
 public class AddWalkerPayload
 {
@@ -8,6 +8,6 @@ public class AddWalkerPayload
 
     public AddWalkerPayload(Walker walker)
     {
-        this.Walker = walker;
+        Walker = walker;
     }
 }

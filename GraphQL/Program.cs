@@ -1,4 +1,6 @@
+using GraphQL.DataLoader;
 using GraphQL.Types;
+using GraphQL.Types.Walkers;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +14,11 @@ builder.Services
 
 builder.Services
     .AddGraphQLServer()
-    .AddType<Query>()
-    .AddType<Mutation>()
+    .AddQueryType<Query>()
+    .AddMutationType<Mutation>()
+    .AddType<WalkerType>()
+    .AddDataLoader<WalkerByIdDataLoader>()
+    .AddDataLoader<SessionByIdDataLoader>()
     .RegisterDbContext<WalkerPlanerDbContext>(DbContextKind.Pooled);
 
 var app = builder.Build();

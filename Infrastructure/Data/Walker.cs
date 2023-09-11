@@ -16,7 +16,7 @@ namespace Infrastructure.Data
            [StringLength(1000)]
            public string? WebSite { get; set; }
 
-           public ICollection<SessionWalker> SessionSpeakers { get; set; } = 
+           public ICollection<SessionWalker> SessionWalkers { get; set; } = 
                new List<SessionWalker>();
        }
    }
