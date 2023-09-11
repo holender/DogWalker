@@ -1,3 +1,4 @@
+using GraphQL;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,8 @@ builder.Services
 
 builder.Services
     .AddGraphQLServer()
+    .AddType<Query>()
     .RegisterDbContext<WalkerPlanerDbContext>(DbContextKind.Pooled);
-
-builder.Services
-    .AddGraphQLServer();
 
 var app = builder.Build();
 
