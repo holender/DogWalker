@@ -4,8 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services
+//    .AddPooledDbContextFactory<WalkerPlanerDbContext>(op => op.UseSqlite("Data Source=walkerPlaner.db"));
+
 builder.Services
-    .AddPooledDbContextFactory<WalkerPlanerDbContext>(op => op.UseSqlite("Data Source=walkerPlaner.db"));
+    .AddDbContext<WalkerPlanerDbContext>(op => op.UseSqlite("Data Source=walkerPlaner.db"));
 
 builder.Services
     .AddGraphQLServer()

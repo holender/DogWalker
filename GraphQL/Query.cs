@@ -7,9 +7,9 @@ namespace GraphQL
 {
     public class Query
     {
-        [UseApplicationDbContext]
-        public Task<List<Walker>> GetWalkers(
-            WalkerPlanerDbContext context) =>
-            context.Walkers.ToListAsync();
+        //[UseApplicationDbContext]
+        public IQueryable<Walker> GetWalkers(
+            [Service] WalkerPlanerDbContext context) =>
+            context.Walkers;
     }
 }
