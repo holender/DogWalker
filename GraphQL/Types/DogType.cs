@@ -24,7 +24,6 @@ namespace GraphQL.Types
 
         protected class DogResolvers
         {
-            [UseWalkerPlanerDbContext]
             public async Task<IEnumerable<Session>> GetSessionsAsync(
                 [Parent] Dog dog,
                 WalkerPlanerDbContext dbContext,

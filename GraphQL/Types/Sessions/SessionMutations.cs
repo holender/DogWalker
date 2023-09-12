@@ -8,7 +8,6 @@ namespace GraphQL.Types.Sessions
     [ExtendObjectType(Name = OperationTypeNames.Mutation)]
     public class SessionMutations
     {
-        [UseWalkerPlanerDbContext]
         public async Task<AddSessionPayload> AddSessionAsync(
             AddSessionInput input,
             WalkerPlanerDbContext context,

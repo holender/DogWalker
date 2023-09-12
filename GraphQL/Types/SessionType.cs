@@ -38,7 +38,6 @@ namespace GraphQL.Types
 
         protected class SessionResolvers
         {
-            [UseWalkerPlanerDbContext]
             public async Task<IEnumerable<Walker>> GetWalkersAsync(
                 [Parent] Session session,
                 WalkerPlanerDbContext dbContext,

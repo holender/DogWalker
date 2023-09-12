@@ -4,27 +4,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GraphQL.DataLoader
 {
-    public class DogByIdDataLoader : BatchDataLoader<int, Dog>
+    public interface IDogByIdDataLoader : IDataLoader<int, Dog> { }
+    public class DogByIdDataLoader : BatchDataLoader<int, Dog>, IDogByIdDataLoader
     {
-        private readonly IDbContextFactory<WalkerPlanerDbContext> _dbContextFactory;
+        private readonly IServiceProvider _services;
 
         public DogByIdDataLoader(
             IBatchScheduler batchScheduler,
-            IDbContextFactory<WalkerPlanerDbContext> dbContextFactory)
+            IServiceProvider services)
             : base(batchScheduler)
         {
-            _dbContextFactory = dbContextFactory ?? 
-                throw new ArgumentNullException(nameof(dbContextFactory));
+            _services = services ??
+                        throw new ArgumentNullException(nameof(services));
         }
 
         protected override async Task<IReadOnlyDictionary<int, Dog>> LoadBatchAsync(
             IReadOnlyList<int> keys,
             CancellationToken cancellationToken)
         {
-            await using var dbContext = 
-                _dbContextFactory.CreateDbContext();
+            await using var scope = _services.CreateAsyncScope();
+            var p1 = scope.ServiceProvider.GetRequiredService<WalkerPlanerDbContext>();
 
-            return await dbContext.Dogs
+            return await p1.Dogs
                 .Where(s => keys.Contains(s.Id))
                 .ToDictionaryAsync(t => t.Id, cancellationToken);
         }

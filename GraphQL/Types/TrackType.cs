@@ -10,6 +10,8 @@ namespace GraphQL.Types
     {
         protected override void Configure(IObjectTypeDescriptor<Track> descriptor)
         {
+            descriptor.Field(s => s.Name).UseUpperCase();
+
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
@@ -20,13 +22,13 @@ namespace GraphQL.Types
                 .Field(t => t.Sessions)
                 .ResolveWith<TrackResolvers>(t => t.GetSessionsAsync(default!, default!, default!, default))
                 .UseDbContext<WalkerPlanerDbContext>()
-               // .UsePaging<NonNullType<SessionType>>()
+                .UsePaging<NonNullType<SessionType>>()
                 .Name("sessions");
         }
 
+
         protected class TrackResolvers
         {
-            [UseWalkerPlanerDbContext]
             public async Task<IEnumerable<Session>> GetSessionsAsync(
                 [Parent] Track track,
                 WalkerPlanerDbContext dbContext,

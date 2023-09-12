@@ -24,22 +24,19 @@ namespace GraphQL.Types
 
         protected class WalkerResolvers
         {
-            [UseWalkerPlanerDbContext]
             public async Task<IEnumerable<Session>> GetSessionsAsync(
                 [Parent] Walker walker,
                 WalkerPlanerDbContext dbContext,
                 SessionByIdDataLoader sessionById,
                 CancellationToken cancellationToken)
             {
-                var id = walker.Id;
-
-                var WalkerIds = await dbContext.Walkers
+                var walkerIds = await dbContext.Walkers
                     .Where(s => s.Id == walker.Id)
                     .Include(s => s.SessionWalkers)
                     .SelectMany(s => s.SessionWalkers.Select(t => t.SessionId))
                     .ToArrayAsync(cancellationToken);
 
-                return await sessionById.LoadAsync(WalkerIds, cancellationToken);
+                return await sessionById.LoadAsync(walkerIds, cancellationToken);
             }
         }
     }

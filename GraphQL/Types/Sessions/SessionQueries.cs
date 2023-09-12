@@ -9,7 +9,6 @@ namespace GraphQL.Types.Sessions
     [ExtendObjectType(Name = OperationTypeNames.Query)]
     public class SessionQueries
     {
-        [UseWalkerPlanerDbContext]
         public async Task<IEnumerable<Session>> GetSessionsAsync(
             WalkerPlanerDbContext context,
             CancellationToken cancellationToken) =>
