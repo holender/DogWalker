@@ -9,11 +9,17 @@ namespace GraphQL.Types.Walkers
     [ExtendObjectType(Name = OperationTypeNames.Query)]
     public class WalkerQueries
     {
-        [UseWalkerPlanerDbContext]
-        public Task<List<Walker>> GetWalkers(
-            WalkerPlanerDbContext context,
-            CancellationToken cancellationToken) =>
-            context.Walkers.ToListAsync(cancellationToken);
+
+        [UsePaging]
+        public IQueryable<Walker> GetWalkers(
+            WalkerPlanerDbContext context) =>
+            context.Walkers.OrderBy(t => t.Name);
+
+        //[UseWalkerPlanerDbContext]
+        //public Task<List<Walker>> GetWalkers(
+        //    WalkerPlanerDbContext context,
+        //    CancellationToken cancellationToken) =>
+        //    context.Walkers.ToListAsync(cancellationToken);
 
         public Task<Walker> GetWalkerByIdAsync(
             [ID(nameof(Walker))]int id,
