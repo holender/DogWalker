@@ -1,0 +1,103 @@
+﻿mutation AddTrack{
+  addTrack(input: {name: "SCIEZKA ZDROWA 3"})
+  {
+    track {
+      id
+    }
+  }
+}
+
+query GetFirstTrack {
+  tracks(first: 2) {
+    edges {
+      node {
+        id
+        name
+      }
+      cursor
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+query GetNextItem {
+  tracks(first: 1, after: "MA==") {
+    edges {
+      node {
+        id
+        name
+      }
+      cursor
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+query GetTrackWithSessions {
+  trackById(id: "VHJhY2sKaTI=") {
+    id
+    sessions(first: 1) {
+      nodes {
+        title
+      }
+    }
+  }
+}
+
+query GetWalkerNamesInParallel {
+  a: walkers {
+    nodes {
+      id
+      name
+    }
+    
+  }
+  b: walkers {
+    nodes {
+      id
+      name
+    }
+  }
+}
+
+query GetSessionsContaining2InTitle {
+  sessions(where: { title: { contains: "Sesja" } }) {
+    nodes {
+      title
+    }
+  }
+}
+query GetWalkerWithSessions {
+  walkerById(id: "V2Fsa2VyCmkx"){
+    sessions {
+      title
+      description
+      startTime
+    }
+    name
+    bio
+  }
+}
+
+mutation AddWalker{
+  addWalker(input: {name: "test"}){
+    walker {s
+      id
+    }
+  }
+}
+
+{
+  "walker": {
+    "name": "Celina Sprawdza-Zmiany"
+  }
+}
