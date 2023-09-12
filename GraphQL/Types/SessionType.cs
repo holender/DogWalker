@@ -41,16 +41,16 @@ namespace GraphQL.Types
             public async Task<IEnumerable<Walker>> GetWalkersAsync(
                 [Parent] Session session,
                 WalkerPlanerDbContext dbContext,
-                WalkerByIdDataLoader WalkerById,
+                WalkerByIdDataLoader walkerById,
                 CancellationToken cancellationToken)
             {
-                var WalkerIds = await dbContext.Session
+                var walkerIds = await dbContext.Session
                     .Where(s => s.Id == session.Id)
                     .Include(s => s.SessionWalkers)
                     .SelectMany(s => s.SessionWalkers.Select(t => t.WalkerId))
                     .ToArrayAsync(cancellationToken);
 
-                return await WalkerById.LoadAsync(WalkerIds, cancellationToken);
+                return await walkerById.LoadAsync(walkerIds, cancellationToken);
             }
 
             [UseWalkerPlanerDbContext]
@@ -60,13 +60,13 @@ namespace GraphQL.Types
                 DogByIdDataLoader dogById,
                 CancellationToken cancellationToken)
             {
-                var attendeeIds = await dbContext.Session
+                var dogIds = await dbContext.Session
                     .Where(s => s.Id == session.Id)
                     .Include(s => s.SessionDogs)
                     .SelectMany(s => s.SessionDogs.Select(t => t.DogId))
                     .ToArrayAsync(cancellationToken);
 
-                return await dogById.LoadAsync(attendeeIds, cancellationToken);
+                return await dogById.LoadAsync(dogIds, cancellationToken);
             }
 
             public async Task<Track?> GetTrackAsync(

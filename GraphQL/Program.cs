@@ -1,44 +1,32 @@
-using GraphQL.DataLoader;
-using GraphQL.Types;
-using GraphQL.Types.Sessions;
-using GraphQL.Types.Tracks;
-using GraphQL.Types.Walkers;
+using GraphQL.Extensions;
 using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services
-    .AddPooledDbContextFactory<WalkerPlanerDbContext>(op => op.UseSqlite("Data Source=walkerPlaner.db"));
+    .AddHttpContextAccessor()
+    .AddCors();
 
-builder.Services
-   .AddDbContextPool<WalkerPlanerDbContext>(op => op.UseSqlite("Data Source=walkerPlaner.db"));
+builder.Services.AddPooledWalkerPlanerDbContext();
 
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType(d => d.Name(OperationTypeNames.Query))
-        .AddTypeExtension<WalkerQueries>()
-        .AddTypeExtension<SessionQueries>()
-        .AddTypeExtension<TrackQueries>()
-    .AddMutationType(d => d.Name(OperationTypeNames.Mutation))
-        .AddTypeExtension<SessionMutations>()
-        .AddTypeExtension<WalkerMutations>()
-        .AddTypeExtension<TrackMutations>()
-    .AddType<DogType>()
-    .AddType<SessionType>()
-    .AddType<WalkerType>()
-    .AddType<TrackType>()
+    .AddTypes()
+    .AddUploadType()
     .AddFiltering()
     .AddSorting()
+    .AddInMemorySubscriptions()
     .AddGlobalObjectIdentification()
-    .AddDataLoader<IWalkerByIdDataLoader, WalkerByIdDataLoader>()
-    .AddDataLoader<ISessionByIdDataLoader, SessionByIdDataLoader>()
-    .AddDataLoader<IDogByIdDataLoader, DogByIdDataLoader>()
-    .AddDataLoader<TrackByIdDataLoader>()
-    .RegisterDbContext<WalkerPlanerDbContext>();
+    .AddInstrumentation(o =>
+    {
+        o.RenameRootActivity = true;
+        o.IncludeDocument = true;
+    })
+    .RegisterDbContext<WalkerPlanerDbContext>()    
+    .ModifyOptions(o => o.EnableDefer = true);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseWebSockets();
+app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.MapGraphQL();
 app.Run();

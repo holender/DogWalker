@@ -1,5 +1,4 @@
 using GraphQL.DataLoader;
-using GraphQL.Extensions;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +19,7 @@ namespace GraphQL.Types
                 .ResolveWith<WalkerResolvers>(t => t.GetSessionsAsync(default!, default!, default!, default))
                 .UseDbContext<WalkerPlanerDbContext>()
                 .Name("sessions");
+
         }
 
         protected class WalkerResolvers

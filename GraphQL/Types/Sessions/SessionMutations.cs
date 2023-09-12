@@ -1,5 +1,6 @@
 using GraphQL.Common;
 using GraphQL.Extensions;
+using HotChocolate.Subscriptions;
 using Infrastructure;
 using Infrastructure.Data;
 
@@ -48,7 +49,8 @@ namespace GraphQL.Types.Sessions
         [UseWalkerPlanerDbContext]
         public async Task<ScheduleSessionPayload> ScheduleSessionAsync(
             ScheduleSessionInput input,
-            WalkerPlanerDbContext context)
+            WalkerPlanerDbContext context,
+            [Service]ITopicEventSender eventSender)
         {
             if (input.EndTime < input.StartTime)
             {
@@ -70,6 +72,10 @@ namespace GraphQL.Types.Sessions
             session.EndTime = input.EndTime;
 
             await context.SaveChangesAsync();
+
+            await eventSender.SendAsync(
+                nameof(SessionSubscriptions.OnSessionScheduledAsync),
+                session.Id);
 
             return new ScheduleSessionPayload(session);
         }
