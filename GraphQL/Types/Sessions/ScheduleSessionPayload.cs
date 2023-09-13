@@ -22,36 +22,5 @@ namespace GraphQL.Types.Sessions
             : base(errors)
         {
         }
-        public async Task<Track?> GetTrackAsync(
-            TrackByIdDataLoader trackById,
-            CancellationToken cancellationToken)
-        {
-            if (Session is null)
-            {
-                return null;
-            }
-
-            return await trackById.LoadAsync(Session.Id, cancellationToken);
-        }
-
-
-        public async Task<IEnumerable<Walker>?> GetWalkersAsync(
-            WalkerPlanerDbContext dbContext,
-            WalkerByIdDataLoader walkerById,
-            CancellationToken cancellationToken)
-        {
-            if (Session is null)
-            {
-                return null;
-            }
-
-            var walkerIds = await dbContext.Session
-                .Where(s => s.Id == Session.Id)
-                .Include(s => s.SessionWalkers)
-                .SelectMany(s => s.SessionWalkers.Select(t => t.WalkerId))
-                .ToArrayAsync(cancellationToken);
-
-            return await walkerById.LoadAsync(walkerIds, cancellationToken);
-        }
     }
 }

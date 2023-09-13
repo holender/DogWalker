@@ -49,14 +49,11 @@ namespace GraphQL.Types.Operations.Mutations
             return new AddSessionPayload(session);
         }
 
-        [UseWalkerPlanerDbContext]
         public async Task<ScheduleSessionPayload> ScheduleSessionAsync(
             ScheduleSessionInput input,
             WalkerPlanerDbContext context,
             [Service] ITopicEventSender eventSender)
         {
-
-
             var errors = new List<UserError>();
             if (input.EndTime < input.StartTime)
             {
@@ -66,6 +63,12 @@ namespace GraphQL.Types.Operations.Mutations
 
             var session = await context.Session.FindAsync(input.SessionId);
             var initialTrackId = session?.TrackId;
+
+            if (initialTrackId is null)
+            {
+                errors.Add(
+                    new UserError("Track not assigned.", "NO_TRACK_ASSIGNED"));
+            }
 
             if (session is null)
             {
