@@ -5,9 +5,9 @@ using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GraphQL.Types.Tracks
+namespace GraphQL.Types.Operations.Queries
 {
-    [ExtendObjectType(Name = OperationTypeNames.Query)]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class TrackQueries
     {
         [UsePaging]
@@ -18,12 +18,6 @@ namespace GraphQL.Types.Tracks
             resolverContext.ArgumentKind("order") is ValueKind.Null
                 ? context.Tracks.OrderBy(t => t.Name)
                 : context.Tracks;
-
-        //[UseWalkerPlanerDbContext]
-        //public async Task<IEnumerable<Track>> GetTracksAsync(
-        //    WalkerPlanerDbContext context,
-        //    CancellationToken cancellationToken) =>
-        //    await context.Tracks.ToListAsync(cancellationToken);
 
         public Task<Track> GetTrackByNameAsync(
             string name,
@@ -37,8 +31,10 @@ namespace GraphQL.Types.Tracks
             CancellationToken cancellationToken) =>
             await context.Tracks.Where(t => names.Contains(t.Name)).ToListAsync(cancellationToken);
 
+        [NodeResolver]
         public Task<Track> GetTrackByIdAsync(
-            [ID(nameof(Track))] int id,
+            int id,
+            //[ID(nameof(Track))] int id,
             TrackByIdDataLoader trackById,
             CancellationToken cancellationToken) =>
             trackById.LoadAsync(id, cancellationToken);

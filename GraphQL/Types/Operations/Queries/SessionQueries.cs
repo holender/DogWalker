@@ -1,10 +1,11 @@
 using GraphQL.DataLoader;
+using GraphQL.Types;
 using Infrastructure;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Sessions
+namespace GraphQL.Types.Operations.Queries
 {
-    [ExtendObjectType(Name = OperationTypeNames.Query)]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class SessionQueries
     {
 
@@ -14,11 +15,6 @@ namespace GraphQL.Types.Sessions
         public IQueryable<Session> GetSessions(
              WalkerPlanerDbContext context) =>
             context.Session;
-
-        //public async Task<IEnumerable<Session>> GetSessionsAsync(
-        //    WalkerPlanerDbContext context,
-        //    CancellationToken cancellationToken) =>
-        //    await context.Session.ToListAsync(cancellationToken);
 
         public Task<Session> GetSessionByIdAsync(
             [ID(nameof(Session))] int id,

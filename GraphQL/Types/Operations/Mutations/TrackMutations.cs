@@ -1,8 +1,9 @@
 using GraphQL.Extensions;
+using GraphQL.Types.Tracks;
 using Infrastructure;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Tracks
+namespace GraphQL.Types.Operations.Mutations
 {
     [ExtendObjectType(Name = OperationTypeNames.Mutation)]
     public class TrackMutations

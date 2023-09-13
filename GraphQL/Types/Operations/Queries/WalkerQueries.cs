@@ -1,34 +1,30 @@
 ﻿using GraphQL.DataLoader;
-using GraphQL.Extensions;
 using Infrastructure;
 using Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
-namespace GraphQL.Types.Walkers
+namespace GraphQL.Types.Operations.Queries
 {
-    [ExtendObjectType(Name = OperationTypeNames.Query)]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class WalkerQueries
     {
 
         [UsePaging]
+        [UseFiltering]
+        [UseSorting]
         public IQueryable<Walker> GetWalkers(
             WalkerPlanerDbContext context) =>
             context.Walkers.OrderBy(t => t.Name);
 
-        //[UseWalkerPlanerDbContext]
-        //public Task<List<Walker>> GetWalkers(
-        //    WalkerPlanerDbContext context,
-        //    CancellationToken cancellationToken) =>
-        //    context.Walkers.ToListAsync(cancellationToken);
 
+       // [NodeResolver]
         public Task<Walker> GetWalkerByIdAsync(
-            [ID(nameof(Walker))]int id,
+            [ID(nameof(Walker))] int id,
             WalkerByIdDataLoader dataLoader,
             CancellationToken cancellationToken) =>
             dataLoader.LoadAsync(id, cancellationToken);
 
         public async Task<IEnumerable<Walker>> GetWalkersByIdAsync(
-            [ID(nameof(Walker))]int[] ids,
+            [ID(nameof(Walker))] int[] ids,
             WalkerByIdDataLoader dataLoader,
             CancellationToken cancellationToken) =>
             await dataLoader.LoadAsync(ids, cancellationToken);

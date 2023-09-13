@@ -1,9 +1,8 @@
 ﻿using GraphQL.DataLoader;
 using GraphQL.Types;
-using GraphQL.Types.Dogs;
-using GraphQL.Types.Sessions;
-using GraphQL.Types.Tracks;
-using GraphQL.Types.Walkers;
+using GraphQL.Types.Operations.Mutations;
+using GraphQL.Types.Operations.Queries;
+using GraphQL.Types.Operations.Subscriptions;
 using HotChocolate.Execution.Configuration;
 
 namespace GraphQL.Extensions

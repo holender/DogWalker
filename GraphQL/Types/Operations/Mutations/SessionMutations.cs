@@ -1,14 +1,17 @@
 using GraphQL.Common;
 using GraphQL.Extensions;
+using GraphQL.Types.Operations.Subscriptions;
+using GraphQL.Types.Sessions;
 using HotChocolate.Subscriptions;
 using Infrastructure;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Sessions
+namespace GraphQL.Types.Operations.Mutations
 {
     [ExtendObjectType(Name = OperationTypeNames.Mutation)]
     public class SessionMutations
     {
+
         public async Task<AddSessionPayload> AddSessionAsync(
             AddSessionInput input,
             WalkerPlanerDbContext context,
@@ -23,7 +26,7 @@ namespace GraphQL.Types.Sessions
             if (input.WalkerIds.Count == 0)
             {
                 return new AddSessionPayload(
-                    new UserError("No Dog assigned.", "NO_Dog"));
+                    new UserError("No Walker assigned.", "NO_WALKER"));
             }
 
             var session = new Session
@@ -50,11 +53,14 @@ namespace GraphQL.Types.Sessions
         public async Task<ScheduleSessionPayload> ScheduleSessionAsync(
             ScheduleSessionInput input,
             WalkerPlanerDbContext context,
-            [Service]ITopicEventSender eventSender)
+            [Service] ITopicEventSender eventSender)
         {
+
+
+            var errors = new List<UserError>();
             if (input.EndTime < input.StartTime)
             {
-                return new ScheduleSessionPayload(
+                errors.Add(
                     new UserError("endTime has to be larger than startTime.", "END_TIME_INVALID"));
             }
 
@@ -63,8 +69,13 @@ namespace GraphQL.Types.Sessions
 
             if (session is null)
             {
-                return new ScheduleSessionPayload(
+                errors.Add(
                     new UserError("Session not found.", "SESSION_NOT_FOUND"));
+            }
+
+            if (errors.Count > 0)
+            {
+                return new ScheduleSessionPayload(errors);
             }
 
             session.TrackId = input.TrackId;

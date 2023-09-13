@@ -5,6 +5,6 @@ namespace GraphQL.Types.Sessions
     public record AddSessionInput(
         string Title,
         string? Description,
-        [ID(nameof(Walker))]
+        [property: ID]
         IReadOnlyList<int> WalkerIds);
 }

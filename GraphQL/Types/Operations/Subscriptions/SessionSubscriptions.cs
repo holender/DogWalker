@@ -1,7 +1,7 @@
 using GraphQL.DataLoader;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Sessions
+namespace GraphQL.Types.Operations.Subscriptions
 {
     [ExtendObjectType(Name = OperationTypeNames.Subscription)]
     public class SessionSubscriptions

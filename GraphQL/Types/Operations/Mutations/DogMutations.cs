@@ -1,11 +1,12 @@
 using GraphQL.Common;
 using GraphQL.Extensions;
+using GraphQL.Types.Dogs;
 using HotChocolate.Subscriptions;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace GraphQL.Types.Dogs
+namespace GraphQL.Types.Operations.Mutations
 {
     [ExtendObjectType(Name = "Mutation")]
     public class DogMutations
@@ -16,21 +17,20 @@ namespace GraphQL.Types.Dogs
             WalkerPlanerDbContext context,
             CancellationToken cancellationToken)
         {
-            var Dog = new Dog
+            var dog = new Dog
             {
                 Breed = input.Bread,
                 Name = input.Name,
                 UserName = input.UserName,
             };
 
-            context.Dogs.Add(Dog);
+            context.Dogs.Add(dog);
 
             await context.SaveChangesAsync(cancellationToken);
 
-            return new RegisterDogPayload(Dog);
+            return new RegisterDogPayload(dog);
         }
 
-        [UseWalkerPlanerDbContext]
         public async Task<CheckInDogPayload> CheckInDogAsync(
             CheckInDogInput input,
             WalkerPlanerDbContext context,

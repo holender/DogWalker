@@ -20,7 +20,6 @@ namespace GraphQL.Types.Dogs
             SessionId = sessionId;
         }
 
-        [UseWalkerPlanerDbContext]
         public async Task<int> CheckInCountAsync(
             WalkerPlanerDbContext context,
             CancellationToken cancellationToken) =>

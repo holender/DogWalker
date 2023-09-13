@@ -3,9 +3,9 @@ using Infrastructure.Data;
 namespace GraphQL.Types.Sessions
 {
     public record ScheduleSessionInput(
-        [ID(nameof(Session))]
+        [property: ID]
         int SessionId,
-        [ID(nameof(Track))]
+        [property: ID]
         int TrackId,
         DateTimeOffset StartTime,
         DateTimeOffset EndTime);

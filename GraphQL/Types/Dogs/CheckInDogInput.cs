@@ -3,8 +3,8 @@ using Infrastructure.Data;
 namespace GraphQL.Types.Dogs
 {
     public record CheckInDogInput(
-        [ID(nameof(Session))]
+        [property: ID]
         int SessionId,
-        [ID(nameof(Dog))]
+        [property: ID]
         int DogId);
 }

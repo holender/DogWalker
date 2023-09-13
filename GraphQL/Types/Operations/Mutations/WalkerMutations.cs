@@ -1,8 +1,9 @@
 ﻿using GraphQL.Extensions;
+using GraphQL.Types.Walkers;
 using Infrastructure;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Walkers
+namespace GraphQL.Types.Operations.Mutations
 {
     [ExtendObjectType(Name = OperationTypeNames.Mutation)]
     public class WalkerMutations

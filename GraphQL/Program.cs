@@ -15,6 +15,7 @@ builder.Services
     .AddFiltering()
     .AddSorting()
     .AddInMemorySubscriptions()
+    .AddIntrospectionAllowedRule()
     .AddGlobalObjectIdentification()
     .RegisterDbContext<WalkerPlanerDbContext>()    
     .ModifyOptions(o => o.EnableDefer = true);

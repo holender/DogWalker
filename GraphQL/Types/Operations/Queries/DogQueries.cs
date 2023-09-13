@@ -2,16 +2,17 @@ using GraphQL.DataLoader;
 using Infrastructure;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Dogs
+namespace GraphQL.Types.Operations.Queries
 {
-    [ExtendObjectType(Name = "Query")]
+    [ExtendObjectType(OperationTypeNames.Query)]
     public class DogQueries
     {
         [UsePaging]
         public IQueryable<Dog> GetDogs(
             WalkerPlanerDbContext context) =>
             context.Dogs;
-
+        
+        [NodeResolver]
         public Task<Dog> GetDogByIdAsync(
             [ID(nameof(Dog))] int id,
             DogByIdDataLoader dogById,

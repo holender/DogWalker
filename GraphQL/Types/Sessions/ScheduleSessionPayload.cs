@@ -18,6 +18,10 @@ namespace GraphQL.Types.Sessions
         {
         }
 
+        public ScheduleSessionPayload(IReadOnlyList<UserError> errors)
+            : base(errors)
+        {
+        }
         public async Task<Track?> GetTrackAsync(
             TrackByIdDataLoader trackById,
             CancellationToken cancellationToken)

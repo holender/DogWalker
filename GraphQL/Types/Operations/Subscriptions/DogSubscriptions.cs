@@ -1,9 +1,10 @@
 using GraphQL.DataLoader;
+using GraphQL.Types.Dogs;
 using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 using Infrastructure.Data;
 
-namespace GraphQL.Types.Dogs
+namespace GraphQL.Types.Operations.Subscriptions
 {
     [ExtendObjectType(Name = "Subscription")]
     public class DogSubscriptions
