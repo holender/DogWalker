@@ -49,6 +49,7 @@ namespace GraphQL.Types.Operations.Mutations
             return new AddSessionPayload(session);
         }
 
+        [UseWalkerPlanerDbContext]
         public async Task<ScheduleSessionPayload> ScheduleSessionAsync(
             ScheduleSessionInput input,
             WalkerPlanerDbContext context,
