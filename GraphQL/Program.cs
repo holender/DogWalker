@@ -16,17 +16,13 @@ builder.Services
     .AddSorting()
     .AddInMemorySubscriptions()
     .AddGlobalObjectIdentification()
-    .AddInstrumentation(o =>
-    {
-        o.RenameRootActivity = true;
-        o.IncludeDocument = true;
-    })
     .RegisterDbContext<WalkerPlanerDbContext>()    
     .ModifyOptions(o => o.EnableDefer = true);
 
 var app = builder.Build();
 
-app.UseWebSockets();
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+app.UseWebSockets();
 app.MapGraphQL();
+app.MapGraphQLVoyager();
 app.Run();

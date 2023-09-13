@@ -12,14 +12,15 @@ namespace GraphQL.Types
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)
-                .ResolveNode((ctx, id) => ctx.DataLoader<WalkerByIdDataLoader>().LoadAsync(id, ctx.RequestAborted)!);
+                .ResolveNode((ctx, id) => 
+                    ctx.DataLoader<WalkerByIdDataLoader>().LoadAsync(id, ctx.RequestAborted)!);
 
             descriptor
                 .Field(t => t.SessionWalkers)
-                .ResolveWith<WalkerResolvers>(t => t.GetSessionsAsync(default!, default!, default!, default))
+                .ResolveWith<WalkerResolvers>(t => 
+                    t.GetSessionsAsync(default!, default!, default!, default))
                 .UseDbContext<WalkerPlanerDbContext>()
                 .Name("sessions");
-
         }
 
         protected class WalkerResolvers
