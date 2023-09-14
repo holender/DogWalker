@@ -12,17 +12,30 @@ builder.Services.AddPooledWalkerPlanerDbContext();
 
 builder.Services
     .AddGraphQLServer()
+
+    //Register Types
     .AddTypes()
     .AddQueryType()
     .AddMutationType()
     .AddSubscriptionType()
-    .AddUploadType()
+
+    //Adding Filtering and Sorting
     .AddFiltering()
     .AddSorting()
+
+    //Subscriptions
+    //.AddMutationConventions()
     .AddInMemorySubscriptions()
+
+    //Introspection
+    .AddIntrospectionAllowedRule()
     .AllowIntrospection(false)
     .AddHttpRequestInterceptor<IntrospectionInterceptor>()
+
+    //Relay
     .AddGlobalObjectIdentification()
+
+    //Db Context
     .RegisterDbContext<WalkerPlanerDbContext>()    
     .ModifyOptions(o => o.EnableDefer = true);
 
@@ -34,7 +47,7 @@ app.UseWebSockets();
 
 app.MapGraphQL().WithOptions(new GraphQLServerOptions
 {
-    EnableSchemaRequests = true,
+    EnableSchemaRequests = false,
     AllowedGetOperations = AllowedGetOperations.All,
     Tool = {
         Enable = env.IsDevelopment()
@@ -46,6 +59,7 @@ app.MapGraphQL().WithOptions(new GraphQLServerOptions
 //app.MapGraphQLHttp("/graphql/http");
 //app.MapGraphQLWebSocket("/graphql/ws");
 //app.MapGraphQLSchema("/graphql/schema");
+
 
 app.MapGraphQLVoyager();
 app.Run();
