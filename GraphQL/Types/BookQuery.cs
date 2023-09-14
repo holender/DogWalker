@@ -1,6 +1,6 @@
 ﻿namespace GraphQL.Types
 {
-    public class Query
+    public class BookQuery
     {
         public Book GetBook() =>
             new()
