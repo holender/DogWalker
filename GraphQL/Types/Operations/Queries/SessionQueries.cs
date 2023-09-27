@@ -1,5 +1,6 @@
 using GraphQL.DataLoader;
 using GraphQL.Types;
+using HotChocolate.Authorization;
 using Infrastructure;
 using Infrastructure.Data;
 

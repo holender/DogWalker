@@ -8,13 +8,15 @@ namespace GraphQL.Types.Operations.Queries
     public class DogQueries
     {
         [UsePaging]
+        [UseFiltering]
+        [UseSorting]
         public IQueryable<Dog> GetDogs(
             WalkerPlanerDbContext context) =>
             context.Dogs;
         
         [NodeResolver]
         public Task<Dog> GetDogByIdAsync(
-            [ID(nameof(Dog))] int id,
+            int id,
             DogByIdDataLoader dogById,
             CancellationToken cancellationToken) =>
             dogById.LoadAsync(id, cancellationToken);

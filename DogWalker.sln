@@ -5,7 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphQL", "GraphQL\GraphQL.csproj", "{E2FCC47E-DCD7-4993-A562-7B730571A984}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{E40F7F72-93EC-42E5-AB48-0481E63A026B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{E40F7F72-93EC-42E5-AB48-0481E63A026B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "..\_WOReK\CryptoExamples\crypto\backend\solutions\example8c\Demo.csproj", "{DE9B7D23-296C-4F4D-B78A-E89DEE0BB6A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E40F7F72-93EC-42E5-AB48-0481E63A026B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E40F7F72-93EC-42E5-AB48-0481E63A026B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E40F7F72-93EC-42E5-AB48-0481E63A026B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9B7D23-296C-4F4D-B78A-E89DEE0BB6A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9B7D23-296C-4F4D-B78A-E89DEE0BB6A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9B7D23-296C-4F4D-B78A-E89DEE0BB6A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9B7D23-296C-4F4D-B78A-E89DEE0BB6A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

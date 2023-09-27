@@ -1,5 +1,6 @@
 using GraphQL.DataLoader;
 using GraphQL.Extensions;
+using HotChocolate.Authorization;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace GraphQL.Types
     {
         protected override void Configure(IObjectTypeDescriptor<Session> descriptor)
         {
+            descriptor.Authorize("READ_ADMIN", ApplyPolicy.Validation);
             descriptor
                 .ImplementsNode()
                 .IdField(t => t.Id)

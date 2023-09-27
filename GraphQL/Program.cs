@@ -1,5 +1,6 @@
 using GraphQL.Configuration;
 using GraphQL.Extensions;
+using GraphQL.Services;
 using HotChocolate.AspNetCore;
 using Infrastructure;
 
@@ -8,7 +9,21 @@ builder.Services
     .AddHttpContextAccessor()
     .AddCors();
 
+using var host = Host.CreateApplicationBuilder(args).Build();
+var config = host.Services.GetRequiredService<IConfiguration>();
+
 builder.Services.AddPooledWalkerPlanerDbContext();
+builder.Services.AddJwtBearer(config);
+builder.Services.AddAuthorization(c =>
+{
+    c.AddPolicy("READ_ADMIN",
+        builder =>
+        {
+            builder.RequireRole("Admin");
+        });
+});
+
+builder.Services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
 
 builder.Services
     .AddGraphQLServer()
@@ -30,7 +45,8 @@ builder.Services
     //Introspection
     .AddIntrospectionAllowedRule()
     .AllowIntrospection(false)
-    .AddHttpRequestInterceptor<IntrospectionInterceptor>()
+    .AddHttpRequestInterceptor<HttpRequestInterceptor>()
+    //.AddSocketSessionInterceptor<SocketSessionInterceptor>()
 
     //Relay
     .AddGlobalObjectIdentification()
@@ -44,6 +60,8 @@ var env = app.Services.GetRequiredService<IWebHostEnvironment>();
 
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.UseWebSockets();
+app.UseAuthentication();
+
 
 app.MapGraphQL().WithOptions(new GraphQLServerOptions
 {
@@ -54,12 +72,6 @@ app.MapGraphQL().WithOptions(new GraphQLServerOptions
     }
     
 });
-
-//app.MapBananaCakePop("/graphql/ui");
-//app.MapGraphQLHttp("/graphql/http");
-//app.MapGraphQLWebSocket("/graphql/ws");
-//app.MapGraphQLSchema("/graphql/schema");
-
 
 app.MapGraphQLVoyager();
 app.Run();
