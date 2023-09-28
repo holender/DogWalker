@@ -5,8 +5,8 @@ namespace GraphQL.Types.Operations.Queries;
 
 [ExtendObjectType(OperationTypeNames.Query)]
 public sealed class UserQueries
-{
-    
+{   
+    [AllowAnonymous]
     public string? GetMyNameIdentifier(
         [GlobalState] string? username,
         ClaimsPrincipal claimsPrincipal,

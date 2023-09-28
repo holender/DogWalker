@@ -6,7 +6,7 @@ using Infrastructure.Data;
 namespace GraphQL.Types.Operations.Queries
 {
     [ExtendObjectType(OperationTypeNames.Query)]
-    [Authorize]
+    //[Authorize(ApplyPolicy.Validation)]
     public class WalkerQueries
     {
 

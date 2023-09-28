@@ -1,0 +1,12 @@
+query GetDogs {
+  dogs {
+    nodes {
+      id
+      name
+      breed 
+      sessions {
+        id
+      }
+    }
+  }
+}
