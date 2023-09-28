@@ -6,7 +6,7 @@ namespace GraphQL.Extensions
 {
     public static class JwtBearerBuilderExtensions
     {
-        public static IServiceCollection AddJwtBearer(this IServiceCollection service, IConfiguration configuration)
+        public static IServiceCollection AddJwtBearerAuthentication(this IServiceCollection service, IConfiguration configuration)
         {
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSecretKey"]!));

@@ -1,10 +1,12 @@
 ﻿using GraphQL.DataLoader;
+using HotChocolate.Authorization;
 using Infrastructure;
 using Infrastructure.Data;
 
 namespace GraphQL.Types.Operations.Queries
 {
     [ExtendObjectType(OperationTypeNames.Query)]
+    [Authorize]
     public class WalkerQueries
     {
 

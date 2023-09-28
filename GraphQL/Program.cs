@@ -2,7 +2,10 @@ using GraphQL.Configuration;
 using GraphQL.Extensions;
 using GraphQL.Services;
 using HotChocolate.AspNetCore;
+using HotChocolate.Resolvers;
 using Infrastructure;
+using Infrastructure.Data;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
@@ -13,13 +16,32 @@ using var host = Host.CreateApplicationBuilder(args).Build();
 var config = host.Services.GetRequiredService<IConfiguration>();
 
 builder.Services.AddPooledWalkerPlanerDbContext();
-builder.Services.AddJwtBearer(config);
+builder.Services.AddJwtBearerAuthentication(config);
 builder.Services.AddAuthorization(c =>
 {
-    c.AddPolicy("READ_ADMIN",
-        builder =>
+    c.AddPolicy("READ_SESSION",
+        b =>
         {
-            builder.RequireRole("Admin");
+            b.RequireAssertion(async context =>
+                {
+                    if (context.Resource is IMiddlewareContext ctx &&
+                        ctx.Parent<Walker>() is { } walkerDb &&
+                        ctx.GetUser() is { } user &&
+                        walkerDb.Name != null &&
+                        walkerDb.Name.Contains(user.FindFirstValue(ClaimTypes.NameIdentifier)!))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+        });
+
+    c.AddPolicy("READ_ADMIN",
+        b =>
+        {
+            b.RequireRole("Admin");
         });
 });
 
@@ -27,7 +49,7 @@ builder.Services.AddScoped<ITokenGeneratorService, TokenGeneratorService>();
 
 builder.Services
     .AddGraphQLServer()
-
+    .AddAuthorization()
     //Register Types
     .AddTypes()
     .AddQueryType()
@@ -61,6 +83,7 @@ var env = app.Services.GetRequiredService<IWebHostEnvironment>();
 app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.UseWebSockets();
 app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapGraphQL().WithOptions(new GraphQLServerOptions

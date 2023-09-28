@@ -1,4 +1,5 @@
 using GraphQL.DataLoader;
+using HotChocolate.Authorization;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace GraphQL.Types
 
             descriptor
                 .Field(t => t.SessionWalkers)
+ //               .Authorize("READ_WALKER_SESSION", ApplyPolicy.AfterResolver)
                 .ResolveWith<WalkerResolvers>(t => 
                     t.GetSessionsAsync(default!, default!, default!, default))
                 .UseDbContext<WalkerPlanerDbContext>()
